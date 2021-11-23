@@ -11,9 +11,9 @@ import java.io.PrintWriter;
 
 public class JsoupHTMLParser {
     public static void Parser(String html){
-        try(PrintWriter pw = new PrintWriter("output.csv")){
-            File in = new File("C:/Users/Yau/Master Folder/Project Bin/Maya Scraping/" + html);
-            Document doc = Jsoup.parse(in, null);
+        try{
+            PrintWriter pw = new PrintWriter("output.csv");
+            Document doc = Jsoup.parse(html);
             Elements rows = doc.select("tr");
             Elements module = rows.select("td:eq(0)");
             Elements occ = rows.select("td:eq(1)");

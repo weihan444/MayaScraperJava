@@ -19,10 +19,6 @@ public class Main {
         String html = "extracted.html";
         System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
         String pageSource = Scraper.Scrape();
-        HTMLWriter.WriteHTML(html, pageSource);
-        JsoupHTMLParser.Parser(html);
-
-
-
+        JsoupHTMLParser.Parser(pageSource);
     }
 }
