@@ -18,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         String html = "extracted.html";
         System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
-        String pageSource = Scraper.Scrape();
-        JsoupHTMLParser.Parser(pageSource);
+        Scraper.Scrape();
     }
 }
