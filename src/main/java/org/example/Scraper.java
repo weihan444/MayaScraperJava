@@ -17,6 +17,7 @@ public class Scraper {
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 30);
         JavascriptExecutor js = (JavascriptExecutor) driver;
+
         try {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.manage().window().maximize();
@@ -46,11 +47,11 @@ public class Scraper {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Teaching Timetable')]")));
             System.out.println("reached");
             Thread.sleep(3000);
+            //js.executeScript("window.scrollBy(0, 3000)");
+            //WebElement backButton = driver.findElement(By.xpath("//a[contains(@class, 'sv-btn-block')]"));
         } catch(InterruptedException e){
             System.out.println(e);
         }
-        System.out.println(driver.getPageSource());
         return driver.getPageSource();
-
     }
 }
