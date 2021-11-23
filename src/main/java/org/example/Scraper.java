@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Scraper {
-    public static void Scrape(){
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+    private WebDriver driver;
+    private WebDriverWait wait;
+    private JavascriptExecutor js;
+
+    public void Login(){
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 30);
+        js = (JavascriptExecutor) driver;
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
@@ -28,6 +31,9 @@ public class Scraper {
         timetable.click();
         driver.findElement(By.xpath("//body/div[2]/div[2]/center/div/div/div[4]/a")).click();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    }
+
+    public void Scrape(){
         List<WebElement> inputField = driver.findElements(By.xpath("//div[contains(@tabindex, '-1')]"));
         inputField.get(0).click();
         driver.findElement(By.xpath("//div/input[contains(@aria-label,'Year')]")).sendKeys("2021/2022" + Keys.ENTER);
@@ -43,15 +49,14 @@ public class Scraper {
         WebElement searchButton = driver.findElement(By.name("BP103.DUMMY_B.MENSYS.1"));
         searchButton.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Teaching Timetable')]")));
-        //js.executeScript("window.scrollBy(0, 3000)");
-        //WebElement backButton = driver.findElement(By.xpath("//a[contains(@class, 'sv-btn-block')]"));
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
         do{
             JsoupHTMLParser.Parser(driver.getPageSource());
             js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.linkText("Next")));
             driver.findElement(By.linkText("Next")).click();
         } while(driver.findElements(By.className("sv-disabled")).isEmpty());
-
         JsoupHTMLParser.Parser(driver.getPageSource());
+
+        driver.findElement(By.linkText("Back")).click();
     }
 }
