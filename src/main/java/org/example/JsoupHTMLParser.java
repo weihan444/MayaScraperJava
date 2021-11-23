@@ -8,13 +8,13 @@ import java.io.*;
 import java.nio.Buffer;
 
 public class JsoupHTMLParser {
-    public static void Parser(String html){
+    public static void Parser(String html, String fileName){
         try{
-            File output = new File("./output.csv");
+            File output = new File("./" + fileName + ".csv");
             if (!output.exists()){
                 output.createNewFile();
             }
-            FileWriter fw = new FileWriter("output.csv", true);
+            FileWriter fw = new FileWriter(fileName + ".csv", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             Document doc = Jsoup.parse(html);
