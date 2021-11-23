@@ -4,15 +4,19 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.Buffer;
 
 public class JsoupHTMLParser {
     public static void Parser(String html){
         try{
-            PrintWriter pw = new PrintWriter("output.csv");
+            File output = new File("./output.csv");
+            if (!output.exists()){
+                output.createNewFile();
+            }
+            FileWriter fw = new FileWriter("output.csv", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
             Document doc = Jsoup.parse(html);
             Elements rows = doc.select("tr");
             Elements module = rows.select("td:eq(0)");
@@ -39,6 +43,7 @@ public class JsoupHTMLParser {
                 sb.append("\n");
                 pw.print(sb);
             }
+            pw.close();
         } catch (IOException e){
             System.out.println(e);
         }

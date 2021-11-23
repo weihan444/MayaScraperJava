@@ -45,7 +45,6 @@ public class Scraper {
             WebElement searchButton = driver.findElement(By.name("BP103.DUMMY_B.MENSYS.1"));
             searchButton.click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Teaching Timetable')]")));
-            System.out.println("reached");
             Thread.sleep(3000);
             //js.executeScript("window.scrollBy(0, 3000)");
             //WebElement backButton = driver.findElement(By.xpath("//a[contains(@class, 'sv-btn-block')]"));
