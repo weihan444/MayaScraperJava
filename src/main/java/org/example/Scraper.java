@@ -80,6 +80,7 @@ public class Scraper {
             js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.linkText("Back")));
             driver.findElement(By.linkText("Back")).click();
         } else{
+            System.out.println("Timetable unavailable for this faculty, returning to previous page... ");
             driver.navigate().back();
         }
     }

@@ -56,8 +56,10 @@ public class Main {
 
         s.login(user, pass);
         for (int i : choice) {
+            System.out.println("Scraping " + faculty[i-1] + " ...");
             s.scrape(faculty[i-1]);
         }
+        System.out.println("Scraping Complete!");
         s.closeBrowser();
     }
 }
