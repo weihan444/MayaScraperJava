@@ -2,7 +2,7 @@
 Maya Scraper is a java program that scrape the [UM Maya sites](https://maya.um.edu.my/sitsvision/wrd/siw_lgn) for the timetable database and output them into .csv file.
 
 ## Getting Started
-You can get the latest release build by downloading from the release tab or you can clone the project and build it yourself.
+You can get the latest release build by downloading from the [release](https://github.com/weihan444/MayaScraperJava/releases) tab or you can clone the project and build it yourself.
 
 ### Prerequisite
 Download the chrome driver based on the current chrome version installed on your computer from [here](https://chromedriver.chromium.org/downloads).
