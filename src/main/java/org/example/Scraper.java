@@ -13,7 +13,7 @@ public class Scraper {
     private WebDriverWait wait;
     private JavascriptExecutor js;
 
-    public void Login(String user, String pass){
+    public void login(String user, String pass){
         //Initialize Driver
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 30);
@@ -35,7 +35,7 @@ public class Scraper {
         driver.findElement(By.xpath("//body/div[2]/div[2]/center/div/div/div[4]/a")).click();
     }
 
-    public void Scrape(String faculty){
+    public void scrape(String faculty){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         //Get a list of input field and key in year, semester and faculty and search
@@ -55,18 +55,36 @@ public class Scraper {
         searchButton.click();
 
         //Wait until the timetable is loaded
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Teaching Timetable')]")));
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Teaching Timetable')]")),
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[contains(text(), 'No Letter text has been produced')]"))));
+
+        //Set Timeout to 500 milliseconds
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(250));
+
+        boolean timetableExist = driver.findElements(By.xpath("//strong[contains(text(), 'No Letter text has been produced')]")).isEmpty();
 
         //Start Scraping
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
         do{
-            JsoupHTMLParser.Parser(driver.getPageSource(), faculty);
+            if(!timetableExist) {
+                break;
+            }
+            JsoupHTMLParser.parser(driver.getPageSource(), faculty);
             js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.linkText("Next")));
             driver.findElement(By.linkText("Next")).click();
         } while(driver.findElements(By.className("sv-disabled")).isEmpty());
 
-        JsoupHTMLParser.Parser(driver.getPageSource(), faculty);
+        if(timetableExist){
+            JsoupHTMLParser.parser(driver.getPageSource(), faculty);
+            js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.linkText("Back")));
+            driver.findElement(By.linkText("Back")).click();
+        } else{
+            driver.navigate().back();
+        }
+    }
 
-        driver.findElement(By.linkText("Back")).click();
+    public void closeBrowser(){
+        driver.close();
     }
 }

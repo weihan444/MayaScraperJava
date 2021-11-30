@@ -8,14 +8,14 @@ import java.io.*;
 import java.nio.Buffer;
 
 public class JsoupHTMLParser {
-    public static void Parser(String html, String fileName){
+    public static void parser(String html, String fileName){
         try{
             File output = new File("./" + fileName + ".csv");
             FileWriter fw = new FileWriter(fileName + ".csv", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
 
-            if (output.createNewFile()){
+            if (output.length() == 0){
                 pw.println("Module,Occurrence,Mode,Date/Time,Tutorial,Target");
             }
 
@@ -49,9 +49,5 @@ public class JsoupHTMLParser {
         } catch (IOException e){
             System.out.println(e);
         }
-    }
-
-    public static void GenerateColumnName(){
-
     }
 }

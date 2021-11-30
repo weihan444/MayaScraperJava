@@ -42,9 +42,22 @@ public class Main {
         System.out.print("Enter Password: ");
         String pass = sc.nextLine();
 
-        s.Login(user, pass);
-        for (String fac: faculty) {
-            s.Scrape(fac);
+        for(int i = 0; i < faculty.length; i++){
+            System.out.printf("%d. %s\n", i + 1, faculty[i]);
         }
+
+        System.out.println("Choose faculties that you wish to scrape (1 - 24) separated with space: ");
+        String[] input = sc.nextLine().split(" ");
+        int[] choice = new int[input.length];
+
+        for(int i = 0; i < input.length; i++){
+            choice[i] = Integer.parseInt(input[i]);
+        }
+
+        s.login(user, pass);
+        for (int i : choice) {
+            s.scrape(faculty[i-1]);
+        }
+        s.closeBrowser();
     }
 }
