@@ -92,6 +92,6 @@ public class Scraper {
     }
 
     public void closeBrowser(){
-        driver.close();
+        driver.quit();
     }
 }
