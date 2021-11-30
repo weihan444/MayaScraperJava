@@ -2,6 +2,7 @@ package org.example;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,16 +13,21 @@ public class Scraper {
     private WebDriver driver;
     private WebDriverWait wait;
     private JavascriptExecutor js;
+    private ChromeOptions options;
 
     public void login(String user, String pass){
         //Initialize Driver
-        driver = new ChromeDriver();
+        options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1400,800");
+        driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, 30);
         js = (JavascriptExecutor) driver;
 
+
         //Set timeouts and go to maya site
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
         driver.get("https://maya.um.edu.my/sitsvision/wrd/siw_lgn");
 
         //Login
