@@ -2,20 +2,18 @@ package org.example;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Scraper {
     private WebDriver driver;
     private WebDriverWait wait;
     private JavascriptExecutor js;
 
-    public void Login(){
+    public void Login(String user, String pass){
         //Initialize Driver
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 30);
@@ -27,8 +25,8 @@ public class Scraper {
         driver.get("https://maya.um.edu.my/sitsvision/wrd/siw_lgn");
 
         //Login
-        driver.findElement(By.id("MUA_CODE.DUMMY.MENSYS")).sendKeys("U2102749");
-        driver.findElement(By.id("PASSWORD.DUMMY.MENSYS")).sendKeys("f6b5a33106UM4322423");
+        driver.findElement(By.id("MUA_CODE.DUMMY.MENSYS")).sendKeys(user);
+        driver.findElement(By.id("PASSWORD.DUMMY.MENSYS")).sendKeys(pass);
         driver.findElement(By.name("BP101.DUMMY_B.MENSYS")).click();
 
         //Wait for timetable to load then go to maya timetable
@@ -66,6 +64,7 @@ public class Scraper {
             js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.linkText("Next")));
             driver.findElement(By.linkText("Next")).click();
         } while(driver.findElements(By.className("sv-disabled")).isEmpty());
+
         JsoupHTMLParser.Parser(driver.getPageSource(), faculty);
 
         driver.findElement(By.linkText("Back")).click();

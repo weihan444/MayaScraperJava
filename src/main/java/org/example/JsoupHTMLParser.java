@@ -11,12 +11,14 @@ public class JsoupHTMLParser {
     public static void Parser(String html, String fileName){
         try{
             File output = new File("./" + fileName + ".csv");
-            if (!output.exists()){
-                output.createNewFile();
-            }
             FileWriter fw = new FileWriter(fileName + ".csv", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
+
+            if (output.createNewFile()){
+                pw.println("Module,Occurrence,Mode,Date/Time,Tutorial,Target");
+            }
+
             Document doc = Jsoup.parse(html);
             Elements rows = doc.select("tr");
             Elements module = rows.select("td:eq(0)");
@@ -47,5 +49,9 @@ public class JsoupHTMLParser {
         } catch (IOException e){
             System.out.println(e);
         }
+    }
+
+    public static void GenerateColumnName(){
+
     }
 }
