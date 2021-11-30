@@ -1,11 +1,9 @@
 package org.example;
 
-import java.io.IOException;
 import java.util.Scanner;
 
-
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Scraper s = new Scraper();
         System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
