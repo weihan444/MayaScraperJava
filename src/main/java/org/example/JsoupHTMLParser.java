@@ -16,7 +16,7 @@ public class JsoupHTMLParser {
             PrintWriter pw = new PrintWriter(bw);
 
             if (output.length() == 0){
-                pw.println("Module,Occurrence,Mode,Date/Time,Tutorial,Target");
+                pw.println("Module,Occurrence,Mode,Day,Start,End,Tutorial,Target");
             }
 
             Document doc = Jsoup.parse(html);
@@ -27,6 +27,11 @@ public class JsoupHTMLParser {
             Elements time = rows.select("td:eq(4)");
             Elements tutor = rows.select("td:eq(5)");
             Elements target = rows.select("td:eq(7)");
+            String dayTime;
+            String[] arr;
+            String day;
+            String startTime;
+            String endTime;
             StringBuilder sb = new StringBuilder();
 
             for(int i = 0; i < module.size(); i++){
@@ -37,7 +42,29 @@ public class JsoupHTMLParser {
                 sb.append(",");
                 sb.append(mode.get(i).text());
                 sb.append(",");
-                sb.append(time.get(i).text());
+                dayTime = time.get(i).text();
+                if (!dayTime.equals("N/A")){
+                    arr = dayTime.split(" ");
+                    day = arr[0];
+                    startTime = arr[1].replace(":","");
+                    endTime = arr[4].replace(":","");
+                    if(arr[2].equals("PM") && Integer.parseInt(startTime) < 1200){
+                        startTime = String.valueOf(Integer.parseInt(startTime) + 1200);
+                    }
+                    if(arr[5].equals("PM") && Integer.parseInt(endTime) < 1200){
+                        endTime = String.valueOf(Integer.parseInt(endTime) + 1200);
+                    }
+
+                } else{
+                    day = "N/A";
+                    startTime = "N/A";
+                    endTime = "N/A";
+                }
+                sb.append(day);
+                sb.append(",");
+                sb.append(startTime);
+                sb.append(",");
+                sb.append(endTime);
                 sb.append(",");
                 sb.append(tutor.get(i).text());
                 sb.append(",");
